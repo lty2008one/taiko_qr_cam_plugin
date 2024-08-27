@@ -96,12 +96,10 @@ void state_callback(void *pParam, uint8 ucState) {
 
 
 
-extern "C"
-{
+extern "C" {
     void CamUpdate();
 
-    __declspec(dllexport) void Init(void)
-    {
+    __declspec(dllexport) void Init(void) {
         HINSTANCE t613Lib = LoadLibrary("C++_hidpos_dll.dll");
         initRegister(t613Lib);
 
@@ -113,15 +111,12 @@ extern "C"
         std::cout << log_prefix << "Init Finished!" << std::endl;
     }
 
-    __declspec(dllexport) void UsingQr(void)
-    {
+    __declspec(dllexport) void UsingQr(void) {
         last_using_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
     }
 
-    __declspec(dllexport) bool CheckQr(void)
-    {
-        if (qr_detected)
-        {
+    __declspec(dllexport) bool CheckQr(void) {
+        if (qr_detected) {
             std::cout << log_prefix << "Found Code! " << std::endl;
             qr_detected = false;
             return true;
@@ -130,10 +125,8 @@ extern "C"
         return false;
     }
 
-    __declspec(dllexport) int GetQr(int len_limit, uint8_t *buffer)
-    {
-        if (qr_buffer.size() == 0 || qr_buffer.size() > len_limit)
-        {
+    __declspec(dllexport) int GetQr(int len_limit, uint8_t *buffer) {
+        if (qr_buffer.size() == 0 || qr_buffer.size() > len_limit) {
             std::cout << log_prefix << "Discard Code, max acceptable len: " << len_limit << ", current len: " << qr_buffer.size() << std::endl;
             return 0;
         }
@@ -144,8 +137,7 @@ extern "C"
         return qr_buffer.size();
     }
 
-    __declspec(dllexport) void Exit(void)
-    {
+    __declspec(dllexport) void Exit(void) {
         std::cout << log_prefix << "Exit" << std::endl;
         bind_change(0);
         ts_scan_deinit();
